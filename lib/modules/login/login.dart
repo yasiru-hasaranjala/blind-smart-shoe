@@ -31,6 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   final _auth = FirebaseAuth.instance;
   bool showSpinner = false;
+  late String errorMessage;
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               const Column(
                 children: [
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
@@ -181,6 +182,15 @@ class _LoginScreenState extends State<LoginScreen> {
                       if (kDebugMode) {
                         print(e);
                       }
+                      setState(() {
+                        errorMessage = e.toString();
+                      });
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(errorMessage),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
                     }
                     setState(() {
                       showSpinner = false;
